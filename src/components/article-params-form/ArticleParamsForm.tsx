@@ -26,7 +26,7 @@ export const ArticleParamsForm = ({
 	articleState,
 	setArticleState,
 }: TProps) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [fontFamily, setFontFamily] = useState(articleState.fontFamilyOption);
 	const [fontSize, setFontSize] = useState(articleState.fontSizeOption);
 	const [fontColor, setFontColor] = useState(articleState.fontColor);
@@ -37,7 +37,7 @@ export const ArticleParamsForm = ({
 	const asideRef = useRef<HTMLElement | null>(null);
 
 	const togglePanel = () => {
-		setIsOpen(!isOpen);
+		setIsMenuOpen(!isMenuOpen);
 	};
 
 	const hundleOutsideClick = (e: MouseEvent) => {
@@ -66,7 +66,7 @@ export const ArticleParamsForm = ({
 	};
 
 	useEffect(() => {
-		if (isOpen) {
+		if (isMenuOpen) {
 			document.addEventListener('mousedown', hundleOutsideClick);
 		} else {
 			document.removeEventListener('mousedown', hundleOutsideClick);
@@ -75,18 +75,20 @@ export const ArticleParamsForm = ({
 		return () => {
 			document.removeEventListener('mousedown', hundleOutsideClick);
 		};
-	}, [isOpen]);
+	}, [isMenuOpen]);
 
 	return (
 		<>
 			<ArrowButton
-				isOpen={isOpen}
+				isOpen={isMenuOpen}
 				onClick={() => {
 					togglePanel();
 				}}
 			/>
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}
+				className={clsx(styles.container, {
+					[styles.container_open]: isMenuOpen,
+				})}
 				ref={asideRef}>
 				<form
 					className={styles.form}
